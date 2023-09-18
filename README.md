@@ -1,6 +1,6 @@
 # favourite_places
 
-A new Flutter project.
+To be completed later.
 
 ## Getting Started
 
