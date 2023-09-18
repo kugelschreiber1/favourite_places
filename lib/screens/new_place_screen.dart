@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:favourite_places/models/place_model.dart';
 import 'package:favourite_places/providers/places_provider.dart';
 import 'package:favourite_places/widgets/image_input.dart';
+import 'package:favourite_places/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location/location.dart';
 
 class NewPlaceScreen extends ConsumerStatefulWidget {
   const NewPlaceScreen({super.key});
@@ -17,6 +19,7 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
   final _titleController = TextEditingController();
   String? _errorMessage;
   File? _selectedImage;
+  Location? _userLocation;
 
   void _showError(String message) {
     showDialog(
@@ -57,6 +60,16 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
     }
     if (value.length > 50) {
       _errorMessage = "Name is too long";
+      _showError(_errorMessage!);
+      return;
+    }
+    if (_selectedImage == null) {
+      _errorMessage = "The image cannot be empty";
+      _showError(_errorMessage!);
+      return;
+    }
+    if (_userLocation == null) {
+      _errorMessage = "The location is not set";
       _showError(_errorMessage!);
       return;
     }
@@ -105,6 +118,8 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
                   _selectedImage = image;
                 },
               ),
+              const SizedBox(height: 16.0),
+              const LocationInput(),
               const SizedBox(height: 16.0),
               ElevatedButton.icon(
                 onPressed: _savePlace,
