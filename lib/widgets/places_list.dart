@@ -25,9 +25,12 @@ class PlacesList extends ConsumerWidget {
     return ListView.builder(
       itemCount: places.length,
       itemBuilder: (context, index) => Card(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         child: ListTile(
-          leading: const Icon(Icons.location_pin),
+          contentPadding: const EdgeInsets.all(5.0),
+          leading: CircleAvatar(
+            radius: 26.0,
+            backgroundImage: FileImage(places[index].image),
+          ),
           title: Text(
             places[index].title,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -38,7 +41,7 @@ class PlacesList extends ConsumerWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => PlaceDetailsScreen(
-                  title: places[index].title,
+                  place: places[index],
                 ),
               ),
             );
